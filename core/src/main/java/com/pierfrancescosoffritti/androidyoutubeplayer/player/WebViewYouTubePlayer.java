@@ -29,8 +29,10 @@ import java.util.Set;
  */
 class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlayerBridge.YouTubePlayerBridgeCallbacks {
 
-    @NonNull private final Set<YouTubePlayerListener> youTubePlayerListeners;
-    @NonNull private final Handler mainThreadHandler;
+    @NonNull
+    private final Set<YouTubePlayerListener> youTubePlayerListeners;
+    @NonNull
+    private final Handler mainThreadHandler;
 
     private YouTubePlayerInitListener youTubePlayerInitListener;
 
@@ -65,7 +67,17 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                loadUrl("javascript:loadVideo('" +videoId +"', " +startSeconds +")");
+                loadUrl("javascript:loadVideo('" + videoId + "', " + startSeconds + ")");
+            }
+        });
+    }
+
+    @Override
+    public void loadVideo(@NonNull String videoId, float startSeconds, String quality) {
+        mainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadUrl("javascript:loadVideo('" + videoId + "', " + startSeconds + "', " + quality + ")");
             }
         });
     }
@@ -75,7 +87,7 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                loadUrl("javascript:cueVideo('" +videoId +"', " +startSeconds +")");
+                loadUrl("javascript:cueVideo('" + videoId + "', " + startSeconds + ")");
             }
         });
     }
@@ -118,7 +130,7 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                loadUrl("javascript:seekTo(" +time +")");
+                loadUrl("javascript:seekTo(" + time + ")");
             }
         });
     }
@@ -137,7 +149,7 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
 
     @Override
     public boolean addListener(@NonNull YouTubePlayerListener listener) {
-        if(listener == null) {
+        if (listener == null) {
             Log.e("YouTubePlayer", "null YouTubePlayerListener not allowed.");
             return false;
         }
@@ -166,7 +178,7 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
             public Bitmap getDefaultVideoPoster() {
                 Bitmap result = super.getDefaultVideoPoster();
 
-                if(result == null)
+                if (result == null)
                     return Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
                 else
                     return result;
@@ -184,7 +196,7 @@ class WebViewYouTubePlayer extends WebView implements YouTubePlayer, YouTubePlay
             String read;
             StringBuilder sb = new StringBuilder();
 
-            while ( ( read = bufferedReader.readLine() ) != null )
+            while ((read = bufferedReader.readLine()) != null)
                 sb.append(read).append("\n");
             inputStream.close();
 
